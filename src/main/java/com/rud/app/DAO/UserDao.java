@@ -20,7 +20,7 @@ public class UserDao {
     }
 
 
-    public User show(long id) {
+    public User getUserById(long id) {
         EntityManager em = entityManagerFactory.createEntityManager();
         User user = em.find(User.class, id);
         return user;

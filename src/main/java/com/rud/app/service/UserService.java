@@ -24,8 +24,8 @@ public class UserService {
 
 
     @Transactional
-    public User show(long id) {
-        return userDao.show(id);
+    public User getUserById(long id) {
+        return userDao.getUserById(id);
     }
 
 
