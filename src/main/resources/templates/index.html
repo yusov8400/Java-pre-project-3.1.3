@@ -11,26 +11,30 @@
         <th>Id</th>
         <th>Name</th>
         <th>Email</th>
-        <th>Delete</th>
         <th>Edit</th>
+        <th>Delete</th>
     </tr>
     <tr th:each="user : ${users}">
         <td th:text="${user.id}"></td>
-        <td th:text="${user.name}"></td>
+        <td th:text="${user.username}"></td>
         <td th:text="${user.email}"></td>
         <td>
-            <form th:method="GET" th:action="@{/users/{id}/edit(id=${user.getId()})}">
+            <form th:method="GET" th:action="@{/admin/{id}/edit(id=${user.getId()})}">
                 <input type="submit" value="Edit"/>
             </form>
         </td>
         <td>
-            <form th:method="DELETE" th:action="@{/users/{id}/delete(id=${user.getId()})}">
+            <form th:method="DELETE" th:action="@{/admin/{id}/delete(id=${user.getId()})}">
                 <input type="submit" value="Delete"/>
             </form>
         </td>
     </tr>
 </table>
-<a href="/users/new">Add new user</a>
+<a href="/admin/new">Add new user</a>
+<br>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Logout"/>
+</form>
 
 </body>
 </html>

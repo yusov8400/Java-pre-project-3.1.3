@@ -1,62 +1,31 @@
 package com.rud.app.controller;
 
-import com.rud.app.model.User;
 import com.rud.app.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.security.Principal;
 
 @Controller
-@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
 
-    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-    @GetMapping()
-    public String index(Model model) {
-        model.addAttribute("users", userService.index());
-        return "index";
+    @RequestMapping("/users")
+    public String userPage(Principal principal, Model model) {
+        model.addAttribute("user", userService.getUserByUsername(principal.getName()));
+        return "getUser";
     }
 
-    @GetMapping("/{id}")
-    public String getUserById(@PathVariable("id") long id, Model model) {
-        model.addAttribute("user", userService.getUserById(id));
-        return "show";
-    }
-
-    @GetMapping("/new")
-    public String newUser(Model model) {
-        model.addAttribute("user", new User());
-        return "new";
-    }
-
-    @PostMapping()
-    public String create(@ModelAttribute("user") User user) {
-        userService.save(user);
-        return "redirect:/users";
-    }
-
-    @GetMapping("/{id}/edit")
-    public String edit(Model model, @PathVariable("id") long id) {
-        model.addAttribute("user", userService.getUserById(id));
-        return "edit";
-    }
-
-    @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") User user, @PathVariable("id") long id) {
-        userService.update(id, user);
-        return "redirect:/users";
-    }
-
-    @DeleteMapping("/{id}/delete")
-    public String delete(@PathVariable("id") long id) {
-        userService.delete(id);
-        return "redirect:/users";
+    @GetMapping("/login")
+    public String loginError(Model model) {
+        model.addAttribute("loginError", true);
+        return "login";
     }
 }

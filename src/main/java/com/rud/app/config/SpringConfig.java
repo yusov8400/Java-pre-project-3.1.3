@@ -30,6 +30,7 @@ import java.util.Properties;
 public class SpringConfig implements WebMvcConfigurer {
     private final Environment env;
 
+
     public SpringConfig(Environment env) {
         this.env = env;
     }
