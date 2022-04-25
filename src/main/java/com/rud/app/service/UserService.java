@@ -5,6 +5,7 @@ import com.rud.app.DAO.UserDao;
 import com.rud.app.model.Role;
 import com.rud.app.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,13 +15,21 @@ import java.util.Set;
 
 @Service
 public class UserService {
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     private final UserDao userDao;
+
     @Autowired
     private RoleDao roleDao;
 
     public UserService(UserDao userDao) {
         this.userDao = userDao;
+    }
+
+    @Autowired
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -41,17 +50,16 @@ public class UserService {
         Set<Role> roles = new HashSet<>();
         roles.add(roleDao.getById(14L));
         user.setRoles(roles);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.save(user);
-
     }
-
 
     @Transactional
     public void update(long id, User updatedUser) {
         Set<Role> roles = new HashSet<>();
         updatedUser.setRoles(roles);
+        updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
         userDao.update(id, updatedUser);
-
     }
 
     @Transactional
@@ -64,6 +72,7 @@ public class UserService {
     public User getUserByUsername(String userName) {
         return userDao.getUserByUsername(userName);
     }
+
 
     @Transactional()
     public List<Role> getAll() {
