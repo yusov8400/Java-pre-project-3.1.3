@@ -54,13 +54,18 @@ public class UserService {
         userDao.save(user);
     }
 
+
     @Transactional
     public void update(long id, User updatedUser) {
-        Set<Role> roles = new HashSet<>();
-        updatedUser.setRoles(roles);
-        updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        if (!updatedUser.getPassword().isEmpty()) {
+            updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        } else {
+            updatedUser.setPassword(userDao.getUserById(id).getPassword());
+        }
+
         userDao.update(id, updatedUser);
     }
+
 
     @Transactional
     public void delete(long id) {
@@ -70,7 +75,8 @@ public class UserService {
 
     @Transactional
     public User getUserByUsername(String userName) {
-        return userDao.getUserByUsername(userName);
+        User user = userDao.getUserByUsername(userName);
+        return user;
     }
 
 

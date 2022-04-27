@@ -5,10 +5,19 @@
     <title>User</title>
 </head>
 <body>
-<p th:text="${user.getUsername}">VALUE</p>
-<p th:text="${user.getEmail()}">VALUE</p>
-<p th:text="${user.getId()}">VALUE</p>
-
+<table border="1">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Email</th>
+    </tr>
+    <tr th:each="user : ${user}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.email}"></td>
+    </tr>
+</table>
+<br>
 <form th:action="@{/logout}" method="post">
     <input type="submit" value="Logout"/>
 </form>

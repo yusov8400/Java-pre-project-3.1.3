@@ -5,8 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class RoleDao {
@@ -27,8 +28,7 @@ public class RoleDao {
 
     @SuppressWarnings("unchecked")
     public Role getByName(String name) {
-        TypedQuery<Role> query = entityManager.createQuery("select r from Role r where r.role = :name", Role.class);
-        return query.setParameter("name", name).getSingleResult();
+        return entityManager.createQuery("select r from Role r where r.role=:role", Role.class).setParameter("role", name).getSingleResult();
     }
 
 
@@ -42,5 +42,12 @@ public class RoleDao {
         return entityManager.createQuery("FROM Role").getResultList();
     }
 
+    public HashSet<Role> getSetOfRoles(String[] roleNames) {
+        Set<Role> roleSet = new HashSet<>();
+        for (String role : roleNames) {
+            roleSet.add(getByName(role));
+        }
+        return (HashSet) roleSet;
+    }
 }
 

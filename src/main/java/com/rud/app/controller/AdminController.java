@@ -1,5 +1,7 @@
 package com.rud.app.controller;
 
+import com.rud.app.DAO.RoleDao;
+import com.rud.app.DAO.UserDao;
 import com.rud.app.model.User;
 import com.rud.app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,14 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     private final UserService userService;
+    private final RoleDao roleDao;
+    private final UserDao userDao;
 
     @Autowired
-    public AdminController(UserService userService) {
+    public AdminController(UserService userService, RoleDao roleDao, UserDao userDao) {
         this.userService = userService;
+        this.roleDao = roleDao;
+        this.userDao = userDao;
     }
 
     @GetMapping("")
@@ -45,11 +51,13 @@ public class AdminController {
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") long id) {
         model.addAttribute("user", userService.getUserById(id));
+        model.addAttribute("roles", roleDao.getAll());
         return "edit";
     }
 
-    @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") User user, @PathVariable("id") long id) {
+    @PatchMapping("/edit")
+    public String update(@ModelAttribute("user") User user, long id, @RequestParam(value = "checkBoxRoles") String[] checkBoxRoles) {
+        user.setRoles(roleDao.getSetOfRoles(checkBoxRoles));
         userService.update(id, user);
         return "redirect:/admin";
     }
