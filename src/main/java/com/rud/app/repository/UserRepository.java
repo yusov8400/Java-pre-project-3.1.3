@@ -9,7 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends JpaRepository<User,Long> {
-    @EntityGraph(attributePaths = {"roles"})
-    @Query("SELECT u FROM User u where u.username =:username")
-    User getByUserName(String username);
+    User findByUsername(String userName);
 }

@@ -1,7 +1,6 @@
 package com.rud.app.controller;
 
 import com.rud.app.model.User;
-import com.rud.app.repository.UserRepository;
 import com.rud.app.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,15 +11,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
-@org.springframework.web.bind.annotation.RestController
+@RestController
 @RequestMapping("/rest")
-public class RestController {
+public class UserController {
 
     private final UserService userService;
 
     private final PasswordEncoder bCryptPasswordEncoder;
 
-    public RestController(UserService userService,PasswordEncoder bCryptPasswordEncoder) {
+    public UserController(UserService userService, PasswordEncoder bCryptPasswordEncoder) {
         this.userService = userService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }

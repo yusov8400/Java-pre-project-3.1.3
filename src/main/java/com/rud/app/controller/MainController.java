@@ -7,7 +7,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping()
+@RequestMapping("")
 public class MainController {
 
 
@@ -19,11 +19,5 @@ public class MainController {
     @GetMapping(value = "/users")
     public String user() {
         return "userPage";
-    }
-
-
-    @PatchMapping(value = "/{id}")
-    public String update(@ModelAttribute("user") User user, @RequestParam(value = "select_roles", required = false) Model model ) {
-        return "redirect:/admin";
     }
 }
