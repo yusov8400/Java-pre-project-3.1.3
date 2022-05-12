@@ -8,7 +8,7 @@ $(document).ready(function () {
             roles: getRole("#selectRole")
 
         }
-        fetch("rest/newUser", {
+        fetch("user/newUser", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json;charset=utf-8"
@@ -32,10 +32,10 @@ function createTableRow(u) {
             <td>${u.password}</td>
             <td>${userRole}</td>
             <td>
-            <a  href="/rest/${u.id}" class="btn btn-info eBtn" >Edit</a>
+            <a  href="/user/${u.id}" class="btn btn-info eBtn" >Edit</a>
             </td>
             <td>
-            <a  href="/rest/delete/${u.id}" class="btn btn-danger delBtn">Delete</a>
+            <a  href="/user/delete/${u.id}" class="btn btn-danger delBtn">Delete</a>
             </td>
         </tr>`;
 }
@@ -53,7 +53,7 @@ function restartAllUser() {
 
     UserTableBody.children().remove();
 
-    fetch("rest/all")
+    fetch("user/all")
         .then((response) => {
             response.json().then(data => data.forEach(function (item, i, data) {
                 let TableRow = createTableRow(item);
@@ -113,7 +113,7 @@ function delModalButton(href) {
     }).then(() => restartAllUser());
 }
 function editModalButton(user) {
-    fetch("rest/edit", {
+    fetch("user/edit", {
         method: "PUT",
         headers: {
             "Content-Type": "application/json;charset=utf-8"

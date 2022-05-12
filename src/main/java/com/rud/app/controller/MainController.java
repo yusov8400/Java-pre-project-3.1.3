@@ -12,7 +12,7 @@ public class MainController {
 
 
     @GetMapping(value = "/admin")
-    public String showAllUsers(ModelMap model) {
+    public String showAllUsers() {
         return "allUsers";
     }
 
